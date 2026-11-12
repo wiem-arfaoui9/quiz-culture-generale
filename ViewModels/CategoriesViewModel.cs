@@ -18,6 +18,8 @@ public partial class CategoriesViewModel : ObservableObject
     [ObservableProperty] string icon;
     [ObservableProperty] string saveText = "Ajouter";
     [ObservableProperty] string welcome;
+    [ObservableProperty] bool isAdmin;
+    [ObservableProperty] string roleText;
 
     public CategoriesViewModel(DatabaseService db, UserSession session)
     {
@@ -28,15 +30,23 @@ public partial class CategoriesViewModel : ObservableObject
     public async Task LoadAsync()
     {
         Welcome = $"Bonjour {_session.Username} 👋";
+        IsAdmin = _session.IsAdmin;
+        RoleText = IsAdmin
+            ? "Mode administrateur : gérez les catégories et les questions."
+            : "Choisissez une catégorie pour passer le test.";
         Categories.Clear();
         foreach (var c in await _db.GetCategoriesAsync())
+        {
+            int best = await _db.GetBestScoreAsync(_session.Username, c.Id);
+            c.BestText = best > 0 ? $"🏆 Meilleur score : {best} pts" : "Pas encore joué";
             Categories.Add(c);
+        }
     }
 
     [RelayCommand]
     async Task Save()
     {
-        if (string.IsNullOrWhiteSpace(Name)) return;
+        if (!_session.IsAdmin || string.IsNullOrWhiteSpace(Name)) return;
 
         if (_editing == null)
             await _db.SaveCategoryAsync(new Category { Name = Name.Trim(), Icon = Icon });
@@ -55,6 +65,7 @@ public partial class CategoriesViewModel : ObservableObject
     [RelayCommand]
     void Edit(Category c)
     {
+        if (!_session.IsAdmin) return;
         _editing = c;
         Name = c.Name; Icon = c.Icon;
         SaveText = "Enregistrer";
@@ -63,6 +74,7 @@ public partial class CategoriesViewModel : ObservableObject
     [RelayCommand]
     async Task Delete(Category c)
     {
+        if (!_session.IsAdmin) return;
         bool yes = await Shell.Current.DisplayAlert("Supprimer",
             $"Supprimer « {c.Name} » et toutes ses questions ?", "Oui", "Non");
         if (!yes) return;
@@ -72,7 +84,10 @@ public partial class CategoriesViewModel : ObservableObject
 
     [RelayCommand]
     async Task OpenQuestions(Category c)
-        => await Shell.Current.GoToAsync($"questions?categoryId={c.Id}");
+    {
+        if (!_session.IsAdmin) return;
+        await Shell.Current.GoToAsync($"questions?categoryId={c.Id}");
+    }
 
     [RelayCommand]
     async Task Play(Category c)

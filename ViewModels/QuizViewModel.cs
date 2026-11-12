@@ -22,6 +22,7 @@ public partial class QuizViewModel : ObservableObject
     [ObservableProperty] int score;
     [ObservableProperty, NotifyPropertyChangedFor(nameof(HasHints))] int hintsLeft = 3;
     [ObservableProperty] string progress;
+    [ObservableProperty] double progressValue;          // AJOUT : alimente la barre de progression
     [ObservableProperty] bool o1Visible = true;
     [ObservableProperty] bool o2Visible = true;
     [ObservableProperty] bool o3Visible = true;
@@ -73,6 +74,7 @@ public partial class QuizViewModel : ObservableObject
         _fiftyUsed = false;
         O1Visible = O2Visible = O3Visible = O4Visible = true;
         Progress = $"Niveau {Level} · Question {_index + 1}/{_questions.Count}";
+        ProgressValue = (double)(_index + 1) / _questions.Count;   // AJOUT
     }
 
     [RelayCommand]

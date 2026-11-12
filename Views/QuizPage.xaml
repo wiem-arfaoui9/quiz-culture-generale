@@ -1,29 +1,83 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="QuizApp.Views.QuizPage" Title="Quiz">
+             x:Class="QuizApp.Views.QuizPage"
+             Title="Quiz">
     <ScrollView>
-        <VerticalStackLayout Padding="20" Spacing="14">
+        <VerticalStackLayout Padding="16" Spacing="14">
 
-            <Grid ColumnDefinitions="*,Auto">
-                <Label Text="{Binding Progress}" TextColor="Gray" />
-                <Label Grid.Column="1" FontAttributes="Bold"
-                       Text="{Binding Score, StringFormat='⭐ {0} pts'}" />
+            <!-- Progression + score -->
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="10">
+                <Label Text="{Binding Progress}" Style="{StaticResource MutedLabel}" VerticalOptions="Center" />
+                <Border Grid.Column="1" StrokeShape="RoundRectangle 16" StrokeThickness="0"
+                        Background="{StaticResource HeroGradient}" Padding="12,6">
+                    <Label Text="{Binding Score, StringFormat='⭐ {0} pts'}" TextColor="White"
+                           FontFamily="OpenSansSemibold" FontSize="14" />
+                </Border>
             </Grid>
 
-            <Label Text="{Binding Current.Text}" FontSize="22" FontAttributes="Bold" />
+            <ProgressBar Progress="{Binding ProgressValue}" ProgressColor="{StaticResource Brand}"
+                         BackgroundColor="{AppThemeBinding Light={StaticResource LineLight}, Dark={StaticResource LineDark}}"
+                         HeightRequest="8" />
 
-            <Button Text="{Binding Current.Option1}" IsVisible="{Binding O1Visible}"
-                    Command="{Binding AnswerCommand}" CommandParameter="0" />
-            <Button Text="{Binding Current.Option2}" IsVisible="{Binding O2Visible}"
-                    Command="{Binding AnswerCommand}" CommandParameter="1" />
-            <Button Text="{Binding Current.Option3}" IsVisible="{Binding O3Visible}"
-                    Command="{Binding AnswerCommand}" CommandParameter="2" />
-            <Button Text="{Binding Current.Option4}" IsVisible="{Binding O4Visible}"
-                    Command="{Binding AnswerCommand}" CommandParameter="3" />
+            <!-- Question -->
+            <Border Style="{StaticResource Card}" Padding="22" Margin="0,4,0,6">
+                <Label Text="{Binding Current.Text}" Style="{StaticResource TitleLabel}"
+                       FontSize="21" LineHeight="1.2" />
+            </Border>
 
-            <Button BackgroundColor="#6C4DF6" TextColor="White"
-                    Text="{Binding HintsLeft, StringFormat='✂ 50/50 ({0} aides restantes)'}"
+            <!-- Réponses -->
+            <Border Style="{StaticResource OptionCard}" IsVisible="{Binding O1Visible}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AnswerCommand}" CommandParameter="0" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border Style="{StaticResource Badge}">
+                        <Label Text="A" Style="{StaticResource BadgeLabel}" />
+                    </Border>
+                    <Label Grid.Column="1" Text="{Binding Current.Option1}" Style="{StaticResource BodyLabel}" VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource OptionCard}" IsVisible="{Binding O2Visible}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AnswerCommand}" CommandParameter="1" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border Style="{StaticResource Badge}">
+                        <Label Text="B" Style="{StaticResource BadgeLabel}" />
+                    </Border>
+                    <Label Grid.Column="1" Text="{Binding Current.Option2}" Style="{StaticResource BodyLabel}" VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource OptionCard}" IsVisible="{Binding O3Visible}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AnswerCommand}" CommandParameter="2" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border Style="{StaticResource Badge}">
+                        <Label Text="C" Style="{StaticResource BadgeLabel}" />
+                    </Border>
+                    <Label Grid.Column="1" Text="{Binding Current.Option3}" Style="{StaticResource BodyLabel}" VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <Border Style="{StaticResource OptionCard}" IsVisible="{Binding O4Visible}">
+                <Border.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding AnswerCommand}" CommandParameter="3" />
+                </Border.GestureRecognizers>
+                <Grid ColumnDefinitions="Auto,*" ColumnSpacing="14">
+                    <Border Style="{StaticResource Badge}">
+                        <Label Text="D" Style="{StaticResource BadgeLabel}" />
+                    </Border>
+                    <Label Grid.Column="1" Text="{Binding Current.Option4}" Style="{StaticResource BodyLabel}" VerticalOptions="Center" />
+                </Grid>
+            </Border>
+
+            <!-- Aide 50/50 -->
+            <Button Style="{StaticResource SecondaryButton}" Margin="0,8,0,20"
+                    Text="{Binding HintsLeft, StringFormat='✂  50/50  ·  {0} aide(s)'}"
                     Command="{Binding FiftyFiftyCommand}"
                     IsEnabled="{Binding HasHints}" />
         </VerticalStackLayout>

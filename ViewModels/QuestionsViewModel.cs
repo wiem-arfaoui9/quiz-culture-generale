@@ -10,11 +10,16 @@ namespace QuizApp.ViewModels;
 public partial class QuestionsViewModel : ObservableObject
 {
     private readonly DatabaseService _db;
+    private readonly UserSession _session;
     public ObservableCollection<Question> Questions { get; } = new();
 
     [ObservableProperty] string categoryId;
 
-    public QuestionsViewModel(DatabaseService db) => _db = db;
+    public QuestionsViewModel(DatabaseService db, UserSession session)
+    {
+        _db = db;
+        _session = session;
+    }
 
     public async Task LoadAsync()
     {
@@ -26,15 +31,22 @@ public partial class QuestionsViewModel : ObservableObject
 
     [RelayCommand]
     async Task Add()
-        => await Shell.Current.GoToAsync($"questionedit?categoryId={CategoryId}&questionId=0");
+    {
+        if (!_session.IsAdmin) return;
+        await Shell.Current.GoToAsync($"questionedit?categoryId={CategoryId}&questionId=0");
+    }
 
     [RelayCommand]
     async Task Edit(Question q)
-        => await Shell.Current.GoToAsync($"questionedit?categoryId={q.CategoryId}&questionId={q.Id}");
+    {
+        if (!_session.IsAdmin) return;
+        await Shell.Current.GoToAsync($"questionedit?categoryId={q.CategoryId}&questionId={q.Id}");
+    }
 
     [RelayCommand]
     async Task Delete(Question q)
     {
+        if (!_session.IsAdmin) return;
         bool yes = await Shell.Current.DisplayAlert("Supprimer", "Supprimer cette question ?", "Oui", "Non");
         if (!yes) return;
         await _db.DeleteQuestionAsync(q);

@@ -4,28 +4,81 @@
              x:Class="QuizApp.Views.QuestionsPage"
              x:Name="page"
              Title="Questions">
-    <Grid RowDefinitions="Auto,*" Padding="16" RowSpacing="10">
-        <Button Grid.Row="0" Text="➕ Ajouter une question" Command="{Binding AddCommand}" />
+    <Grid RowDefinitions="Auto,*">
 
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Questions}">
+        <Border Grid.Row="0" StrokeShape="RoundRectangle 0,0,28,28" StrokeThickness="0"
+                Background="{StaticResource HeroGradient}" Padding="20,6,20,22">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="Banque de questions" Style="{StaticResource HeroTitle}" FontSize="22" />
+                <Button Text="➕  Ajouter une question" Command="{Binding AddCommand}"
+                        BackgroundColor="White" TextColor="{StaticResource Brand}"
+                        FontFamily="OpenSansSemibold" FontSize="15" CornerRadius="14" HeightRequest="48" />
+            </VerticalStackLayout>
+        </Border>
+
+        <CollectionView Grid.Row="1" ItemsSource="{Binding Questions}" Margin="16,0">
+
+            <CollectionView.Header>
+                <BoxView HeightRequest="10" Color="Transparent" />
+            </CollectionView.Header>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="30,50" Spacing="8">
+                    <Label Text="📝" FontSize="52" HorizontalOptions="Center" />
+                    <Label Text="Aucune question" Style="{StaticResource H2Label}" HorizontalOptions="Center" />
+                    <Label Text="Appuyez sur « Ajouter une question » pour créer la première."
+                           Style="{StaticResource MutedLabel}" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Frame Margin="0,5" Padding="12" CornerRadius="10">
-                        <VerticalStackLayout Spacing="6">
-                            <Label FontSize="18" FontAttributes="Bold" Text="{Binding Text}" />
-                            <Label TextColor="Gray" Text="{Binding LevelText}" />
-                            <HorizontalStackLayout Spacing="8">
-                                <Button Text="✏ Modifier"
+                    <Border Style="{StaticResource Card}" Margin="0,6" Padding="16">
+                        <VerticalStackLayout Spacing="12">
+
+                            <!-- Pastille de niveau : vert / orange / rouge -->
+                            <Border Style="{StaticResource Chip}" HorizontalOptions="Start"
+                                    BackgroundColor="{StaticResource SuccessSoft}">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Level}" Value="2">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource AmberSoft}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Level}" Value="3">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource DangerSoft}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <Label Text="{Binding LevelText}" Style="{StaticResource ChipLabel}"
+                                       TextColor="{StaticResource Success}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Level}" Value="2">
+                                            <Setter Property="TextColor" Value="{StaticResource Amber}" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Level}" Value="3">
+                                            <Setter Property="TextColor" Value="{StaticResource Danger}" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Border>
+
+                            <Label Text="{Binding Text}" Style="{StaticResource BodyLabel}"
+                                   FontFamily="OpenSansSemibold" />
+
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <Button Text="✏  Modifier" Style="{StaticResource SoftButton}"
                                         Command="{Binding BindingContext.EditCommand, Source={x:Reference page}}"
                                         CommandParameter="{Binding .}" />
-                                <Button Text="🗑 Supprimer" BackgroundColor="Red"
+                                <Button Grid.Column="1" Text="🗑  Supprimer" Style="{StaticResource DangerSoftButton}"
                                         Command="{Binding BindingContext.DeleteCommand, Source={x:Reference page}}"
                                         CommandParameter="{Binding .}" />
-                            </HorizontalStackLayout>
+                            </Grid>
                         </VerticalStackLayout>
-                    </Frame>
+                    </Border>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <BoxView HeightRequest="24" Color="Transparent" />
+            </CollectionView.Footer>
         </CollectionView>
     </Grid>
 </ContentPage>

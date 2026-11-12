@@ -8,20 +8,46 @@ public class AuthService
     private readonly DatabaseService _db;
     private readonly UserSession _session;
 
+    // Compte administrateur (créé automatiquement s'il n'existe pas)
+    public const string AdminUsername = "administrateur";
+    private const string AdminDefaultPassword = "admin123";   // à changer !
+    private bool _adminChecked;
+
     public AuthService(DatabaseService db, UserSession session)
     {
         _db = db;
         _session = session;
     }
 
-    private static string Hash(string password, byte[] salt) =>
-        Convert.ToBase64String(Rfc2898DeriveBytes.Pbkdf2(
+    public static string Hash(string password, byte[] salt) =>
+           Convert.ToBase64String(Rfc2898DeriveBytes.Pbkdf2(
             password, salt, 100_000, HashAlgorithmName.SHA256, 32));
+
+    private async Task EnsureAdminAsync()
+    {
+        if (_adminChecked) return;
+        if (await _db.GetUserAsync(AdminUsername) == null)
+        {
+            byte[] salt = RandomNumberGenerator.GetBytes(16);
+            await _db.AddUserAsync(new User
+            {
+                Username = AdminUsername,
+                Salt = Convert.ToBase64String(salt),
+                PasswordHash = Hash(AdminDefaultPassword, salt)
+            });
+        }
+        _adminChecked = true;
+    }
 
     public async Task<(bool ok, string message)> RegisterAsync(string username, string password)
     {
         if (string.IsNullOrWhiteSpace(username) || string.IsNullOrEmpty(password) || password.Length < 6)
             return (false, "Nom requis et mot de passe d'au moins 6 caractères.");
+
+        await EnsureAdminAsync();
+
+        if (string.Equals(username.Trim(), AdminUsername, StringComparison.OrdinalIgnoreCase))
+            return (false, "Ce nom d'utilisateur est réservé.");
 
         if (await _db.GetUserAsync(username.Trim()) != null)
             return (false, "Ce nom d'utilisateur existe déjà.");
@@ -38,11 +64,16 @@ public class AuthService
 
     public async Task<bool> LoginAsync(string username, string password)
     {
+        await EnsureAdminAsync();
         var user = await _db.GetUserAsync(username?.Trim() ?? "");
         if (user == null || string.IsNullOrEmpty(password)) return false;
 
         bool ok = Hash(password, Convert.FromBase64String(user.Salt)) == user.PasswordHash;
-        if (ok) _session.Username = user.Username;      // on garde qui est connecté
+        if (ok)
+        {
+            _session.Username = user.Username;                          // qui est connecté
+            _session.IsAdmin = user.Username == AdminUsername;          // son rôle
+        }
         return ok;
     }
 }
