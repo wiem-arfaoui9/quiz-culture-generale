@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.ResultPage" Title="Résultat">
+    <VerticalStackLayout Padding="30" Spacing="18" VerticalOptions="Center">
+        <Label Text="{Binding Title}" FontSize="26" HorizontalOptions="Center" />
+        <Label Text="{Binding Score, StringFormat='⭐ {0} points'}"
+               FontSize="36" HorizontalOptions="Center" />
+        <Label Text="{Binding Level, StringFormat='Niveau atteint : {0}'}"
+               HorizontalOptions="Center" />
+        <Label Text="{Binding Best}" TextColor="Gray" HorizontalOptions="Center" />
+        <Button Text="🔁 Rejouer" Command="{Binding ReplayCommand}" />
+        <Button Text="🏠 Accueil" Command="{Binding HomeCommand}" />
+    </VerticalStackLayout>
+</ContentPage>

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.CategoriesPage"
+             x:Name="page"
+             Title="Catégories">
+    <Grid RowDefinitions="Auto,Auto,*,Auto" Padding="16" RowSpacing="10">
+
+        <Label Grid.Row="0" Text="{Binding Welcome}" FontSize="18" />
+
+        <!-- Formulaire ajout / modification -->
+        <VerticalStackLayout Grid.Row="1" Spacing="8">
+            <Entry Placeholder="Nom de la catégorie" Text="{Binding Name}" />
+            <Entry Placeholder="Icône (ex : 🌍)" Text="{Binding Icon}" />
+            <Button Text="{Binding SaveText}" Command="{Binding SaveCommand}" />
+        </VerticalStackLayout>
+
+        <!-- Liste (CollectionView) -->
+        <CollectionView Grid.Row="2" ItemsSource="{Binding Categories}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="0,5" Padding="12" CornerRadius="10">
+                        <VerticalStackLayout Spacing="8">
+                            <HorizontalStackLayout Spacing="10">
+                                <Label Text="{Binding Icon}" FontSize="24" />
+                                <Label Text="{Binding Name}" FontSize="20" VerticalOptions="Center" />
+                            </HorizontalStackLayout>
+
+                            <FlexLayout Wrap="Wrap">
+                                <Button Text="▶ Jouer" BackgroundColor="Green" Margin="0,0,6,6"
+                                        Command="{Binding BindingContext.PlayCommand, Source={x:Reference page}}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Text="❓ Questions" Margin="0,0,6,6"
+                                        Command="{Binding BindingContext.OpenQuestionsCommand, Source={x:Reference page}}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Text="✏ Modifier" Margin="0,0,6,6"
+                                        Command="{Binding BindingContext.EditCommand, Source={x:Reference page}}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Text="🗑 Supprimer" BackgroundColor="Red" Margin="0,0,6,6"
+                                        Command="{Binding BindingContext.DeleteCommand, Source={x:Reference page}}"
+                                        CommandParameter="{Binding .}" />
+                            </FlexLayout>
+                        </VerticalStackLayout>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+
+        <Button Grid.Row="3" Text="Se déconnecter" Command="{Binding LogoutCommand}" />
+    </Grid>
+</ContentPage>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.QuizPage" Title="Quiz">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="14">
+
+            <Grid ColumnDefinitions="*,Auto">
+                <Label Text="{Binding Progress}" TextColor="Gray" />
+                <Label Grid.Column="1" FontAttributes="Bold"
+                       Text="{Binding Score, StringFormat='⭐ {0} pts'}" />
+            </Grid>
+
+            <Label Text="{Binding Current.Text}" FontSize="22" FontAttributes="Bold" />
+
+            <Button Text="{Binding Current.Option1}" IsVisible="{Binding O1Visible}"
+                    Command="{Binding AnswerCommand}" CommandParameter="0" />
+            <Button Text="{Binding Current.Option2}" IsVisible="{Binding O2Visible}"
+                    Command="{Binding AnswerCommand}" CommandParameter="1" />
+            <Button Text="{Binding Current.Option3}" IsVisible="{Binding O3Visible}"
+                    Command="{Binding AnswerCommand}" CommandParameter="2" />
+            <Button Text="{Binding Current.Option4}" IsVisible="{Binding O4Visible}"
+                    Command="{Binding AnswerCommand}" CommandParameter="3" />
+
+            <Button BackgroundColor="#6C4DF6" TextColor="White"
+                    Text="{Binding HintsLeft, StringFormat='✂ 50/50 ({0} aides restantes)'}"
+                    Command="{Binding FiftyFiftyCommand}"
+                    IsEnabled="{Binding HasHints}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

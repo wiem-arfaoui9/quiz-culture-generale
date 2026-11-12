@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.QuestionEditPage" Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout Padding="20" Spacing="12">
+            <Editor Placeholder="Texte de la question" AutoSize="TextChanges" Text="{Binding Text}" />
+            <Entry Placeholder="Option 1" Text="{Binding Option1}" />
+            <Entry Placeholder="Option 2" Text="{Binding Option2}" />
+            <Entry Placeholder="Option 3" Text="{Binding Option3}" />
+            <Entry Placeholder="Option 4" Text="{Binding Option4}" />
+
+            <Picker Title="Bonne réponse" SelectedIndex="{Binding CorrectIndex}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Option 1</x:String>
+                        <x:String>Option 2</x:String>
+                        <x:String>Option 3</x:String>
+                        <x:String>Option 4</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Picker Title="Niveau" SelectedIndex="{Binding LevelIndex}">
+                <Picker.ItemsSource>
+                    <x:Array Type="{x:Type x:String}">
+                        <x:String>Niveau 1 (facile)</x:String>
+                        <x:String>Niveau 2 (moyen)</x:String>
+                        <x:String>Niveau 3 (difficile)</x:String>
+                    </x:Array>
+                </Picker.ItemsSource>
+            </Picker>
+
+            <Editor Placeholder="Explication de la bonne réponse (optionnel)"
+                    AutoSize="TextChanges" Text="{Binding Explanation}" />
+
+            <Label Text="{Binding Error}" TextColor="Red" />
+            <Button Text="💾 Enregistrer" Command="{Binding SaveCommand}" />
+            <Button Text="Annuler" Command="{Binding CancelCommand}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>
