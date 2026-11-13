@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!-- Thème QuizMaster "Pastel Pop" : violet, rose, bleu ciel, jaune, menthe.
+     Chargé après Styles.xaml : il surcharge les styles par défaut. -->
+<ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <!-- ========== PALETTE ========== -->
+    <Color x:Key="Violet">#7C5CFC</Color>
+    <Color x:Key="VioletDeep">#5B3FD9</Color>
+    <Color x:Key="VioletSoft">#EDE7FF</Color>
+    <Color x:Key="VioletSoftDark">#322C63</Color>
+    <Color x:Key="VioletTextDark">#C9BCFF</Color>
+    <Color x:Key="Pink">#FF7EB6</Color>
+    <Color x:Key="PinkSoft">#FFE4F0</Color>
+    <Color x:Key="Sky">#38BDF8</Color>
+    <Color x:Key="SkySoft">#DDF4FF</Color>
+    <Color x:Key="Sun">#FFC933</Color>
+    <Color x:Key="SunSoft">#FFF3C4</Color>
+    <Color x:Key="SunText">#9A6700</Color>
+    <Color x:Key="Mint">#2FCB98</Color>
+    <Color x:Key="MintDeep">#0F9D74</Color>
+    <Color x:Key="MintSoft">#D6F7EA</Color>
+    <Color x:Key="MintSoftDark">#173D36</Color>
+    <Color x:Key="Coral">#FF5C6C</Color>
+    <Color x:Key="CoralDeep">#D92D42</Color>
+    <Color x:Key="CoralSoft">#FFE1E4</Color>
+    <Color x:Key="CoralSoftDark">#4A2230</Color>
+    <Color x:Key="CoralTextDark">#FFA3AD</Color>
+
+    <Color x:Key="PageLight">#F7F4FF</Color>
+    <Color x:Key="PageDark">#15122B</Color>
+    <Color x:Key="CardLight">#FFFFFF</Color>
+    <Color x:Key="CardDark">#221F44</Color>
+    <Color x:Key="FieldLight">#F4F1FF</Color>
+    <Color x:Key="FieldDark">#2D2A55</Color>
+    <Color x:Key="LineLight">#E9E3FB</Color>
+    <Color x:Key="LineDark">#3B3769</Color>
+    <Color x:Key="InkLight">#2B2750</Color>
+    <Color x:Key="InkDark">#F4F1FF</Color>
+    <Color x:Key="MutedLight">#7A7699</Color>
+    <Color x:Key="MutedDark">#ADA9D0</Color>
+
+    <!-- ========== DÉGRADÉS ========== -->
+    <LinearGradientBrush x:Key="HeroGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#7C5CFC" Offset="0.0" />
+        <GradientStop Color="#B06CFF" Offset="0.55" />
+        <GradientStop Color="#FF7EB6" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="PrimaryGradient" StartPoint="0,0" EndPoint="1,0">
+        <GradientStop Color="#7C5CFC" Offset="0.0" />
+        <GradientStop Color="#A06BFF" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <LinearGradientBrush x:Key="SunGradient" StartPoint="0,0" EndPoint="1,1">
+        <GradientStop Color="#FFD84D" Offset="0.0" />
+        <GradientStop Color="#FFA94D" Offset="1.0" />
+    </LinearGradientBrush>
+
+    <SolidColorBrush x:Key="MintBrush" Color="#2FCB98" />
+    <SolidColorBrush x:Key="CoralBrush" Color="#FF5C6C" />
+
+    <!-- ========== PAGES & SHELL ========== -->
+    <Style TargetType="Page" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource PageLight}, Dark={StaticResource PageDark}}" />
+    </Style>
+
+    <Style TargetType="Shell" ApplyToDerivedTypes="True">
+        <Setter Property="Shell.BackgroundColor" Value="{StaticResource Violet}" />
+        <Setter Property="Shell.ForegroundColor" Value="White" />
+        <Setter Property="Shell.TitleColor" Value="White" />
+        <Setter Property="Shell.NavBarHasShadow" Value="False" />
+    </Style>
+
+    <!-- ========== TEXTES ========== -->
+    <Style x:Key="TitleLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsBold" />
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkLight}, Dark={StaticResource InkDark}}" />
+    </Style>
+    <Style x:Key="H2Label" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="18" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkLight}, Dark={StaticResource InkDark}}" />
+    </Style>
+    <Style x:Key="BodyLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsMedium" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkLight}, Dark={StaticResource InkDark}}" />
+    </Style>
+    <Style x:Key="MutedLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsRegular" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource MutedLight}, Dark={StaticResource MutedDark}}" />
+    </Style>
+    <Style x:Key="SectionLabel" TargetType="Label" BasedOn="{StaticResource MutedLabel}">
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="CharacterSpacing" Value="0.8" />
+    </Style>
+    <Style x:Key="HeroTitle" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsBold" />
+        <Setter Property="FontSize" Value="30" />
+        <Setter Property="TextColor" Value="White" />
+    </Style>
+    <Style x:Key="HeroSub" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsRegular" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="#E6FFFFFF" />
+    </Style>
+    <Style x:Key="ChipLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource VioletDeep}, Dark={StaticResource VioletTextDark}}" />
+    </Style>
+    <Style x:Key="BadgeLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsBold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="HorizontalOptions" Value="Center" />
+        <Setter Property="VerticalOptions" Value="Center" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource VioletDeep}, Dark={StaticResource VioletTextDark}}" />
+    </Style>
+    <Style x:Key="DangerLabel" TargetType="Label">
+        <Setter Property="FontFamily" Value="PoppinsMedium" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CoralDeep}, Dark={StaticResource CoralTextDark}}" />
+    </Style>
+
+    <!-- ========== CONTENEURS ========== -->
+    <Style x:Key="Card" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 24" />
+        <Setter Property="StrokeThickness" Value="1" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource LineLight}, Dark={StaticResource LineDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CardLight}, Dark={StaticResource CardDark}}" />
+        <Setter Property="Padding" Value="18" />
+        <Setter Property="Shadow">
+            <Shadow Brush="#7C5CFC" Opacity="0.14" Radius="18" Offset="0,6" />
+        </Setter>
+    </Style>
+
+    <Style x:Key="OptionCard" TargetType="Border" BasedOn="{StaticResource Card}">
+        <Setter Property="StrokeShape" Value="RoundRectangle 20" />
+        <Setter Property="StrokeThickness" Value="2" />
+        <Setter Property="Padding" Value="14,14" />
+    </Style>
+
+    <Style x:Key="Field" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 16" />
+        <Setter Property="StrokeThickness" Value="1.5" />
+        <Setter Property="Stroke" Value="{AppThemeBinding Light={StaticResource LineLight}, Dark={StaticResource LineDark}}" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource FieldLight}, Dark={StaticResource FieldDark}}" />
+        <Setter Property="Padding" Value="14,0" />
+    </Style>
+
+    <Style x:Key="Chip" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="10,4" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource VioletSoft}, Dark={StaticResource VioletSoftDark}}" />
+    </Style>
+
+    <Style x:Key="Badge" TargetType="Border">
+        <Setter Property="StrokeShape" Value="Ellipse" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="WidthRequest" Value="38" />
+        <Setter Property="HeightRequest" Value="38" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource VioletSoft}, Dark={StaticResource VioletSoftDark}}" />
+    </Style>
+
+    <Style x:Key="Pill" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 18" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="12,6" />
+        <Setter Property="BackgroundColor" Value="#33FFFFFF" />
+    </Style>
+
+    <Style x:Key="ErrorBanner" TargetType="Border">
+        <Setter Property="StrokeShape" Value="RoundRectangle 14" />
+        <Setter Property="StrokeThickness" Value="0" />
+        <Setter Property="Padding" Value="12,10" />
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CoralSoft}, Dark={StaticResource CoralSoftDark}}" />
+    </Style>
+
+    <!-- ========== CHAMPS DE SAISIE ========== -->
+    <Style x:Key="FieldEntry" TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="PoppinsRegular" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="MinimumHeightRequest" Value="50" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkLight}, Dark={StaticResource InkDark}}" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource MutedLight}, Dark={StaticResource MutedDark}}" />
+    </Style>
+    <Style x:Key="FieldEditor" TargetType="Editor">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="PoppinsRegular" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="MinimumHeightRequest" Value="96" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkLight}, Dark={StaticResource InkDark}}" />
+        <Setter Property="PlaceholderColor" Value="{AppThemeBinding Light={StaticResource MutedLight}, Dark={StaticResource MutedDark}}" />
+    </Style>
+    <Style x:Key="FieldPicker" TargetType="Picker">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="FontFamily" Value="PoppinsRegular" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="MinimumHeightRequest" Value="50" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource InkLight}, Dark={StaticResource InkDark}}" />
+        <Setter Property="TitleColor" Value="{AppThemeBinding Light={StaticResource MutedLight}, Dark={StaticResource MutedDark}}" />
+    </Style>
+
+    <!-- ========== BOUTONS (effet "pression" : léger rétrécissement) ========== -->
+    <Style x:Key="PrimaryButton" TargetType="Button">
+        <Setter Property="Background" Value="{StaticResource PrimaryGradient}" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="CornerRadius" Value="18" />
+        <Setter Property="HeightRequest" Value="54" />
+        <Setter Property="Padding" Value="20,0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.96" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.45" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SecondaryButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource VioletDeep}, Dark={StaticResource VioletTextDark}}" />
+        <Setter Property="BorderColor" Value="{AppThemeBinding Light={StaticResource Violet}, Dark={StaticResource VioletTextDark}}" />
+        <Setter Property="BorderWidth" Value="2" />
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="16" />
+        <Setter Property="CornerRadius" Value="18" />
+        <Setter Property="HeightRequest" Value="54" />
+        <Setter Property="Padding" Value="20,0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.96" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Disabled">
+                        <VisualState.Setters>
+                            <Setter Property="Opacity" Value="0.45" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="SoftButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource VioletSoft}, Dark={StaticResource VioletSoftDark}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource VioletDeep}, Dark={StaticResource VioletTextDark}}" />
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="44" />
+        <Setter Property="Padding" Value="14,0" />
+        <Setter Property="VisualStateManager.VisualStateGroups">
+            <VisualStateGroupList>
+                <VisualStateGroup x:Name="CommonStates">
+                    <VisualState x:Name="Normal">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="1" />
+                        </VisualState.Setters>
+                    </VisualState>
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale" Value="0.95" />
+                        </VisualState.Setters>
+                    </VisualState>
+                </VisualStateGroup>
+            </VisualStateGroupList>
+        </Setter>
+    </Style>
+
+    <Style x:Key="DangerSoftButton" TargetType="Button" BasedOn="{StaticResource SoftButton}">
+        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CoralSoft}, Dark={StaticResource CoralSoftDark}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource CoralDeep}, Dark={StaticResource CoralTextDark}}" />
+    </Style>
+
+    <Style x:Key="IconButton" TargetType="Button" BasedOn="{StaticResource SoftButton}">
+        <Setter Property="BackgroundColor" Value="#E6FFFFFF" />
+        <Setter Property="WidthRequest" Value="42" />
+        <Setter Property="HeightRequest" Value="42" />
+        <Setter Property="CornerRadius" Value="21" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="16" />
+    </Style>
+
+    <Style x:Key="EmojiButton" TargetType="Button" BasedOn="{StaticResource SoftButton}">
+        <Setter Property="WidthRequest" Value="46" />
+        <Setter Property="HeightRequest" Value="46" />
+        <Setter Property="CornerRadius" Value="23" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="FontSize" Value="20" />
+    </Style>
+
+    <Style x:Key="HeroButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="#33FFFFFF" />
+        <Setter Property="TextColor" Value="White" />
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="13" />
+        <Setter Property="CornerRadius" Value="14" />
+        <Setter Property="HeightRequest" Value="38" />
+        <Setter Property="Padding" Value="14,0" />
+    </Style>
+
+    <Style x:Key="LightButton" TargetType="Button">
+        <Setter Property="BackgroundColor" Value="White" />
+        <Setter Property="TextColor" Value="{StaticResource VioletDeep}" />
+        <Setter Property="FontFamily" Value="PoppinsSemibold" />
+        <Setter Property="FontSize" Value="15" />
+        <Setter Property="CornerRadius" Value="16" />
+        <Setter Property="HeightRequest" Value="48" />
+    </Style>
+</ResourceDictionary>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.QuestionsPage"
+             x:Name="page"
+             Title="Questions">
+    <Grid RowDefinitions="Auto,*">
+
+        <Border x:Name="heroBar" Grid.Row="0" StrokeShape="RoundRectangle 0,0,32,32" StrokeThickness="0"
+                Background="{StaticResource HeroGradient}" Padding="20,8,20,22">
+            <VerticalStackLayout Spacing="12">
+                <Label Text="🧠 Banque de questions" Style="{StaticResource HeroTitle}" FontSize="22" />
+                <Button Text="➕  Ajouter une question" Command="{Binding AddCommand}"
+                        Style="{StaticResource LightButton}" />
+            </VerticalStackLayout>
+        </Border>
+
+        <CollectionView x:Name="questionsList" Grid.Row="1" ItemsSource="{Binding Questions}" Margin="16,0">
+
+            <CollectionView.Header>
+                <BoxView HeightRequest="12" Color="Transparent" />
+            </CollectionView.Header>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="30,50" Spacing="8">
+                    <Label Text="📝" FontSize="52" HorizontalOptions="Center" />
+                    <Label Text="Aucune question" Style="{StaticResource H2Label}" HorizontalOptions="Center" />
+                    <Label Text="Appuie sur « Ajouter une question » pour créer la première."
+                           Style="{StaticResource MutedLabel}" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Border Style="{StaticResource Card}" Margin="0,6" Padding="16">
+                        <VerticalStackLayout Spacing="12">
+
+                            <!-- Pastille de niveau : vert / jaune / rose -->
+                            <Border Style="{StaticResource Chip}" HorizontalOptions="Start"
+                                    BackgroundColor="{StaticResource MintSoft}">
+                                <Border.Triggers>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Level}" Value="2">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource SunSoft}" />
+                                    </DataTrigger>
+                                    <DataTrigger TargetType="Border" Binding="{Binding Level}" Value="3">
+                                        <Setter Property="BackgroundColor" Value="{StaticResource CoralSoft}" />
+                                    </DataTrigger>
+                                </Border.Triggers>
+                                <Label Text="{Binding LevelText}" Style="{StaticResource ChipLabel}"
+                                       TextColor="{StaticResource MintDeep}">
+                                    <Label.Triggers>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Level}" Value="2">
+                                            <Setter Property="TextColor" Value="{StaticResource SunText}" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Label" Binding="{Binding Level}" Value="3">
+                                            <Setter Property="TextColor" Value="{StaticResource CoralDeep}" />
+                                        </DataTrigger>
+                                    </Label.Triggers>
+                                </Label>
+                            </Border>
+
+                            <Label Text="{Binding Text}" Style="{StaticResource BodyLabel}" />
+
+                            <Grid ColumnDefinitions="*,*" ColumnSpacing="10">
+                                <Button Text="✏  Modifier" Style="{StaticResource SoftButton}"
+                                        Command="{Binding BindingContext.EditCommand, Source={x:Reference page}}"
+                                        CommandParameter="{Binding .}" />
+                                <Button Grid.Column="1" Text="🗑  Supprimer" Style="{StaticResource DangerSoftButton}"
+                                        Command="{Binding BindingContext.DeleteCommand, Source={x:Reference page}}"
+                                        CommandParameter="{Binding .}" />
+                            </Grid>
+                        </VerticalStackLayout>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <BoxView HeightRequest="28" Color="Transparent" />
+            </CollectionView.Footer>
+        </CollectionView>
+    </Grid>
+</ContentPage>

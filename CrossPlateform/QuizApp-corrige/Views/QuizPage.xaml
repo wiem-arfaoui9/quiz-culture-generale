@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.QuizPage"
+             x:Name="page"
+             Title="Quiz">
+    <ScrollView>
+        <VerticalStackLayout x:Name="content" Padding="16" Spacing="14">
+
+            <!-- Niveau + score -->
+            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="10">
+                <Border Style="{StaticResource Chip}" Padding="14,7">
+                    <Label Text="{Binding LevelText, StringFormat='🎚 {0}'}" Style="{StaticResource ChipLabel}" />
+                </Border>
+                <Label Grid.Column="1" Text="{Binding Progress}" Style="{StaticResource MutedLabel}"
+                       VerticalOptions="Center" HorizontalTextAlignment="End" />
+                <Border x:Name="scoreBadge" Grid.Column="2" StrokeShape="RoundRectangle 18" StrokeThickness="0"
+                        Background="{StaticResource SunGradient}" Padding="14,7">
+                    <Label Text="{Binding Score, StringFormat='⭐ {0} pts'}" TextColor="White"
+                           FontFamily="PoppinsBold" FontSize="14" />
+                </Border>
+            </Grid>
+
+            <ProgressBar x:Name="progressBar" Progress="0" ProgressColor="{StaticResource Violet}"
+                         BackgroundColor="{AppThemeBinding Light={StaticResource LineLight}, Dark={StaticResource LineDark}}"
+                         HeightRequest="8" />
+
+            <!-- Question -->
+            <Border x:Name="questionCard" Style="{StaticResource Card}" Padding="22" Margin="0,4,0,4">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="🤔" FontSize="34" />
+                    <Label Text="{Binding Current.Text}" Style="{StaticResource TitleLabel}"
+                           FontSize="21" LineHeight="1.25" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Réponses (une seule définition de tuile, 4 fois) -->
+            <VerticalStackLayout x:Name="optionsStack" Spacing="10"
+                                 BindableLayout.ItemsSource="{Binding Options}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Border Style="{StaticResource OptionCard}" IsVisible="{Binding IsVisible}">
+                            <Border.GestureRecognizers>
+                                <TapGestureRecognizer
+                                    Command="{Binding BindingContext.AnswerCommand, Source={x:Reference page}}"
+                                    CommandParameter="{Binding .}" />
+                            </Border.GestureRecognizers>
+                            <Border.Triggers>
+                                <DataTrigger TargetType="Border" Binding="{Binding State}" Value="correct">
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource MintSoft}, Dark={StaticResource MintSoftDark}}" />
+                                    <Setter Property="Stroke" Value="{StaticResource MintBrush}" />
+                                    <Setter Property="Scale" Value="1.02" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border" Binding="{Binding State}" Value="wrong">
+                                    <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CoralSoft}, Dark={StaticResource CoralSoftDark}}" />
+                                    <Setter Property="Stroke" Value="{StaticResource CoralBrush}" />
+                                </DataTrigger>
+                                <DataTrigger TargetType="Border" Binding="{Binding State}" Value="dim">
+                                    <Setter Property="Opacity" Value="0.5" />
+                                </DataTrigger>
+                            </Border.Triggers>
+                            <Grid ColumnDefinitions="Auto,*,Auto" ColumnSpacing="14">
+                                <Border Style="{StaticResource Badge}">
+                                    <Label Text="{Binding Letter}" Style="{StaticResource BadgeLabel}" />
+                                </Border>
+                                <Label Grid.Column="1" Text="{Binding Text}" Style="{StaticResource BodyLabel}"
+                                       VerticalOptions="Center" />
+                                <Label Grid.Column="2" Text="{Binding Mark}" FontSize="22" VerticalOptions="Center" />
+                            </Grid>
+                        </Border>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </VerticalStackLayout>
+
+            <!-- Retour sur la réponse + bouton suivant -->
+            <Border x:Name="feedbackCard" Style="{StaticResource Card}" Padding="18"
+                    IsVisible="{Binding IsAnswered}"
+                    BackgroundColor="{AppThemeBinding Light={StaticResource MintSoft}, Dark={StaticResource MintSoftDark}}">
+                <Border.Triggers>
+                    <DataTrigger TargetType="Border" Binding="{Binding FeedbackKind}" Value="bad">
+                        <Setter Property="BackgroundColor" Value="{AppThemeBinding Light={StaticResource CoralSoft}, Dark={StaticResource CoralSoftDark}}" />
+                    </DataTrigger>
+                </Border.Triggers>
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="{Binding FeedbackTitle}" Style="{StaticResource H2Label}" />
+                    <Label Text="{Binding FeedbackText}" Style="{StaticResource BodyLabel}" FontSize="14" />
+                    <Button Text="{Binding NextText}" Style="{StaticResource PrimaryButton}"
+                            Command="{Binding NextCommand}" Margin="0,4,0,0" />
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Aide 50/50 -->
+            <Button Style="{StaticResource SecondaryButton}" Margin="0,4,0,24"
+                    Text="{Binding HintsLeft, StringFormat='✂  50/50  ·  {0} aide(s)'}"
+                    Command="{Binding FiftyFiftyCommand}"
+                    IsEnabled="{Binding CanUseFifty}"
+                    IsVisible="{Binding HasHints}" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

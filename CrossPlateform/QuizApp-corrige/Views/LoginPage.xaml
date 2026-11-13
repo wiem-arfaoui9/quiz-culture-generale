@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.LoginPage"
+             Title="Connexion"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto">
+
+            <!-- En-tête coloré -->
+            <Border Grid.Row="0" StrokeShape="RoundRectangle 0,0,40,40" StrokeThickness="0"
+                    Background="{StaticResource HeroGradient}" Padding="24,64,24,100">
+                <Grid>
+                    <!-- Bulles décoratives -->
+                    <Border StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="#22FFFFFF" InputTransparent="True"
+                            WidthRequest="150" HeightRequest="150" HorizontalOptions="Start" VerticalOptions="Start"
+                            Margin="-90,-100,0,0" />
+                    <Border StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="#26FFD84D" InputTransparent="True"
+                            WidthRequest="90" HeightRequest="90" HorizontalOptions="End" VerticalOptions="End"
+                            Margin="0,0,-40,-60" />
+
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Border x:Name="logo" StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="#33FFFFFF"
+                                WidthRequest="96" HeightRequest="96" HorizontalOptions="Center">
+                            <Label Text="🎓" FontSize="46" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="QuizMaster" Style="{StaticResource HeroTitle}" FontSize="34" HorizontalOptions="Center" />
+                        <Label Text="Teste et enrichis ta culture générale ✨"
+                               Style="{StaticResource HeroSub}" HorizontalOptions="Center" HorizontalTextAlignment="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <!-- Carte de connexion -->
+            <Border x:Name="card" Grid.Row="1" Style="{StaticResource Card}" Padding="26"
+                    HorizontalOptions="Center" Margin="0,-64,0,28">
+                <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Connexion" Style="{StaticResource TitleLabel}" />
+                        <Label Text="Heureux de te revoir !" Style="{StaticResource MutedLabel}" />
+                    </VerticalStackLayout>
+
+                    <Border Style="{StaticResource Field}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Label Text="👤" FontSize="18" VerticalOptions="Center" />
+                            <Entry Grid.Column="1" Style="{StaticResource FieldEntry}" ReturnType="Next"
+                                   Placeholder="Nom d'utilisateur" Text="{Binding Username}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource Field}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Label Text="🔒" FontSize="18" VerticalOptions="Center" />
+                            <Entry Grid.Column="1" Style="{StaticResource FieldEntry}" ReturnType="Go"
+                                   ReturnCommand="{Binding LoginCommand}"
+                                   Placeholder="Mot de passe" IsPassword="True" Text="{Binding Password}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource ErrorBanner}" IsVisible="{Binding HasError}">
+                        <Label Text="{Binding Error}" Style="{StaticResource DangerLabel}" />
+                    </Border>
+
+                    <Button Text="Se connecter 🚀" Style="{StaticResource PrimaryButton}"
+                            Command="{Binding LoginCommand}" Margin="0,4,0,0" />
+
+                    <Label Text="Pas encore de compte ?" Style="{StaticResource MutedLabel}"
+                           HorizontalOptions="Center" Margin="0,6,0,0" />
+                    <Button Text="Créer un compte" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding GoRegisterCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>

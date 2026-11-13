@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.RegisterPage"
+             Title="Inscription"
+             Shell.NavBarIsVisible="False">
+    <ScrollView>
+        <Grid RowDefinitions="Auto,Auto">
+
+            <Border Grid.Row="0" StrokeShape="RoundRectangle 0,0,40,40" StrokeThickness="0"
+                    Background="{StaticResource HeroGradient}" Padding="24,56,24,96">
+                <Grid>
+                    <Border StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="#22FFFFFF" InputTransparent="True"
+                            WidthRequest="130" HeightRequest="130" HorizontalOptions="End" VerticalOptions="Start"
+                            Margin="0,-90,-60,0" />
+                    <VerticalStackLayout Spacing="10" HorizontalOptions="Center">
+                        <Border x:Name="logo" StrokeShape="Ellipse" StrokeThickness="0" BackgroundColor="#33FFFFFF"
+                                WidthRequest="84" HeightRequest="84" HorizontalOptions="Center">
+                            <Label Text="🎉" FontSize="40" HorizontalOptions="Center" VerticalOptions="Center" />
+                        </Border>
+                        <Label Text="Rejoins l'aventure" Style="{StaticResource HeroTitle}" HorizontalOptions="Center" />
+                        <Label Text="Crée ton compte en quelques secondes"
+                               Style="{StaticResource HeroSub}" HorizontalOptions="Center" />
+                    </VerticalStackLayout>
+                </Grid>
+            </Border>
+
+            <Border x:Name="card" Grid.Row="1" Style="{StaticResource Card}" Padding="26"
+                    HorizontalOptions="Center" Margin="0,-60,0,28">
+                <VerticalStackLayout Spacing="14">
+                    <VerticalStackLayout Spacing="2">
+                        <Label Text="Créer un compte" Style="{StaticResource TitleLabel}" />
+                        <Label Text="Mot de passe : 6 caractères minimum" Style="{StaticResource MutedLabel}" />
+                    </VerticalStackLayout>
+
+                    <Border Style="{StaticResource Field}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Label Text="👤" FontSize="18" VerticalOptions="Center" />
+                            <Entry Grid.Column="1" Style="{StaticResource FieldEntry}" ReturnType="Next"
+                                   Placeholder="Nom d'utilisateur" Text="{Binding Username}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource Field}">
+                        <Grid ColumnDefinitions="Auto,*" ColumnSpacing="10">
+                            <Label Text="🔒" FontSize="18" VerticalOptions="Center" />
+                            <Entry Grid.Column="1" Style="{StaticResource FieldEntry}" ReturnType="Go"
+                                   ReturnCommand="{Binding RegisterCommand}"
+                                   Placeholder="Mot de passe" IsPassword="True" Text="{Binding Password}" />
+                        </Grid>
+                    </Border>
+
+                    <Border Style="{StaticResource ErrorBanner}" IsVisible="{Binding HasError}">
+                        <Label Text="{Binding Error}" Style="{StaticResource DangerLabel}" />
+                    </Border>
+
+                    <Button Text="S'inscrire ✨" Style="{StaticResource PrimaryButton}"
+                            Command="{Binding RegisterCommand}" Margin="0,4,0,0" />
+                    <Button Text="Retour" Style="{StaticResource SecondaryButton}"
+                            Command="{Binding BackCommand}" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+    </ScrollView>
+</ContentPage>
