@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.QuestionEditPage"
+             Title="{Binding Title}">
+    <ScrollView>
+        <VerticalStackLayout Padding="16" Spacing="14">
+
+            <!-- Énoncé -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="QUESTION" Style="{StaticResource SectionLabel}" />
+                    <Border Style="{StaticResource Field}" Padding="14,4">
+                        <Editor Style="{StaticResource FieldEditor}" AutoSize="TextChanges"
+                                Placeholder="Texte de la question" Text="{Binding Text}" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Réponses -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="RÉPONSES POSSIBLES" Style="{StaticResource SectionLabel}" />
+
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Style="{StaticResource Badge}" VerticalOptions="Center">
+                            <Label Text="A" Style="{StaticResource BadgeLabel}" />
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource Field}">
+                            <Entry Style="{StaticResource FieldEntry}" Placeholder="Option 1" Text="{Binding Option1}" />
+                        </Border>
+                    </Grid>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Style="{StaticResource Badge}" VerticalOptions="Center">
+                            <Label Text="B" Style="{StaticResource BadgeLabel}" />
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource Field}">
+                            <Entry Style="{StaticResource FieldEntry}" Placeholder="Option 2" Text="{Binding Option2}" />
+                        </Border>
+                    </Grid>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Style="{StaticResource Badge}" VerticalOptions="Center">
+                            <Label Text="C" Style="{StaticResource BadgeLabel}" />
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource Field}">
+                            <Entry Style="{StaticResource FieldEntry}" Placeholder="Option 3" Text="{Binding Option3}" />
+                        </Border>
+                    </Grid>
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="12">
+                        <Border Style="{StaticResource Badge}" VerticalOptions="Center">
+                            <Label Text="D" Style="{StaticResource BadgeLabel}" />
+                        </Border>
+                        <Border Grid.Column="1" Style="{StaticResource Field}">
+                            <Entry Style="{StaticResource FieldEntry}" Placeholder="Option 4" Text="{Binding Option4}" />
+                        </Border>
+                    </Grid>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Paramètres -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="PARAMÈTRES" Style="{StaticResource SectionLabel}" />
+
+                    <Border Style="{StaticResource Field}">
+                        <Picker Style="{StaticResource FieldPicker}" Title="✅  Bonne réponse"
+                                SelectedIndex="{Binding CorrectIndex}">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Option 1</x:String>
+                                    <x:String>Option 2</x:String>
+                                    <x:String>Option 3</x:String>
+                                    <x:String>Option 4</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Border>
+
+                    <Border Style="{StaticResource Field}">
+                        <Picker Style="{StaticResource FieldPicker}" Title="📊  Niveau"
+                                SelectedIndex="{Binding LevelIndex}">
+                            <Picker.ItemsSource>
+                                <x:Array Type="{x:Type x:String}">
+                                    <x:String>Niveau 1 (facile)</x:String>
+                                    <x:String>Niveau 2 (moyen)</x:String>
+                                    <x:String>Niveau 3 (difficile)</x:String>
+                                </x:Array>
+                            </Picker.ItemsSource>
+                        </Picker>
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <!-- Explication -->
+            <Border Style="{StaticResource Card}">
+                <VerticalStackLayout Spacing="10">
+                    <Label Text="💡  EXPLICATION (OPTIONNEL)" Style="{StaticResource SectionLabel}" />
+                    <Border Style="{StaticResource Field}" Padding="14,4">
+                        <Editor Style="{StaticResource FieldEditor}" AutoSize="TextChanges"
+                                Placeholder="Pourquoi est-ce la bonne réponse ?" Text="{Binding Explanation}" />
+                    </Border>
+                </VerticalStackLayout>
+            </Border>
+
+            <Border Style="{StaticResource ErrorBanner}"
+                    IsVisible="{Binding Error, Converter={StaticResource NotEmpty}}">
+                <Label Text="{Binding Error}" Style="{StaticResource DangerLabel}" />
+            </Border>
+
+            <Button Text="💾  Enregistrer" Style="{StaticResource PrimaryButton}" Command="{Binding SaveCommand}" />
+            <Button Text="Annuler" Style="{StaticResource SecondaryButton}" Command="{Binding CancelCommand}"
+                    Margin="0,0,0,20" />
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

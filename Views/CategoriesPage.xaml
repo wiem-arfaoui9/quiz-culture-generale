@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="QuizApp.Views.CategoriesPage"
+             x:Name="page"
+             Title="Catégories">
+    <Grid RowDefinitions="Auto,*">
+
+        <!-- En-tête -->
+        <Border x:Name="heroBar" Grid.Row="0" StrokeShape="RoundRectangle 0,0,28,28" StrokeThickness="0"
+                Background="{StaticResource HeroGradient}" Padding="20,6,20,24">
+            <Grid ColumnDefinitions="*,Auto" ColumnSpacing="12">
+                <VerticalStackLayout Spacing="4">
+                    <Label Text="{Binding Welcome}" Style="{StaticResource HeroTitle}" FontSize="22" />
+                    <Label Text="{Binding RoleText}" Style="{StaticResource HeroSub}" />
+                </VerticalStackLayout>
+                <Button Grid.Column="1" Text="Déconnexion" Style="{StaticResource HeroButton}"
+                        Command="{Binding LogoutCommand}" VerticalOptions="Start" />
+            </Grid>
+        </Border>
+
+        <!-- Liste -->
+        <CollectionView x:Name="categoriesList" Grid.Row="1" ItemsSource="{Binding Categories}" Margin="16,0">
+
+            <CollectionView.ItemsLayout>
+                <GridItemsLayout Orientation="Vertical" Span="1"
+                                 VerticalItemSpacing="12" HorizontalItemSpacing="12" />
+            </CollectionView.ItemsLayout>
+
+            <CollectionView.Header>
+                <VerticalStackLayout Spacing="12" Padding="0,16,0,6">
+                    <!-- Formulaire ajout / modification : ADMIN seulement -->
+                    <Border Style="{StaticResource Card}" IsVisible="{Binding IsAdmin}">
+                        <VerticalStackLayout Spacing="12">
+                            <Label Text="CATÉGORIE" Style="{StaticResource SectionLabel}" />
+                            <Grid ColumnDefinitions="*,92" ColumnSpacing="10">
+                                <Border Style="{StaticResource Field}">
+                                    <Entry Style="{StaticResource FieldEntry}"
+                                           Placeholder="Nom de la catégorie" Text="{Binding Name}" />
+                                </Border>
+                                <Border Grid.Column="1" Style="{StaticResource Field}">
+                                    <Entry Style="{StaticResource FieldEntry}" HorizontalTextAlignment="Center"
+                                           Placeholder="🌍" Text="{Binding Icon}" />
+                                </Border>
+                            </Grid>
+                            <Button Text="{Binding SaveText}" Style="{StaticResource PrimaryButton}"
+                                    Command="{Binding SaveCommand}" />
+                        </VerticalStackLayout>
+                    </Border>
+                    <Label Text="Catégories" Style="{StaticResource H2Label}" Margin="2,8,0,0" />
+                </VerticalStackLayout>
+            </CollectionView.Header>
+
+            <CollectionView.EmptyView>
+                <VerticalStackLayout Padding="30,40" Spacing="8">
+                    <Label Text="📚" FontSize="52" HorizontalOptions="Center" />
+                    <Label Text="Aucune catégorie pour le moment" Style="{StaticResource H2Label}"
+                           HorizontalOptions="Center" />
+                    <Label Text="Les catégories apparaîtront ici dès qu'elles seront ajoutées."
+                           Style="{StaticResource MutedLabel}" HorizontalTextAlignment="Center" />
+                </VerticalStackLayout>
+            </CollectionView.EmptyView>
+
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <!-- Tuile de catégorie -->
+                    <Border Style="{StaticResource Card}" Padding="0">
+                        <Grid RowDefinitions="Auto,Auto">
+
+                            <!-- Bandeau coloré + icône -->
+                            <Grid Grid.Row="0" HeightRequest="104" Background="{StaticResource HeroGradient}">
+                                <Label Text="{Binding Icon}" FontSize="48"
+                                       HorizontalOptions="Center" VerticalOptions="Center" />
+
+                                <!-- Modifier / Supprimer : ADMIN seulement -->
+                                <HorizontalStackLayout HorizontalOptions="End" VerticalOptions="Start"
+                                                       Spacing="8" Margin="10"
+                                                       IsVisible="{Binding BindingContext.IsAdmin, Source={x:Reference page}}">
+                                    <Button Text="✏" Style="{StaticResource IconButton}"
+                                            Command="{Binding BindingContext.EditCommand, Source={x:Reference page}}"
+                                            CommandParameter="{Binding .}" />
+                                    <Button Text="🗑" Style="{StaticResource DangerIconButton}"
+                                            Command="{Binding BindingContext.DeleteCommand, Source={x:Reference page}}"
+                                            CommandParameter="{Binding .}" />
+                                </HorizontalStackLayout>
+                            </Grid>
+
+                            <VerticalStackLayout Grid.Row="1" Padding="16" Spacing="10">
+                                <Label Text="{Binding Name}" Style="{StaticResource H2Label}"
+                                       LineBreakMode="TailTruncation" />
+                                <Label Text="3 niveaux de difficulté" Style="{StaticResource MutedLabel}" />
+
+                                <Border Style="{StaticResource Chip}" HorizontalOptions="Start">
+                                    <Label Text="{Binding BestText}" Style="{StaticResource ChipLabel}" />
+                                </Border>
+
+                                <Grid ColumnDefinitions="*,Auto" Margin="0,4,0,0">
+                                    <!-- Jouer : tout le monde -->
+                                    <Button Text="▶  Jouer" Style="{StaticResource PrimaryButton}"
+                                            HeightRequest="46" FontSize="15"
+                                            Command="{Binding BindingContext.PlayCommand, Source={x:Reference page}}"
+                                            CommandParameter="{Binding .}" />
+                                    <!-- Gérer les questions : ADMIN seulement -->
+                                    <Button Grid.Column="1" Text="❓" Style="{StaticResource SecondaryButton}"
+                                            HeightRequest="46" WidthRequest="52" Padding="0" Margin="10,0,0,0"
+                                            IsVisible="{Binding BindingContext.IsAdmin, Source={x:Reference page}}"
+                                            Command="{Binding BindingContext.OpenQuestionsCommand, Source={x:Reference page}}"
+                                            CommandParameter="{Binding .}" />
+                                </Grid>
+                            </VerticalStackLayout>
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+
+            <CollectionView.Footer>
+                <BoxView HeightRequest="24" Color="Transparent" />
+            </CollectionView.Footer>
+        </CollectionView>
+    </Grid>
+</ContentPage>
